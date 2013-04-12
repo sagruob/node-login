@@ -1,17 +1,17 @@
 {
-	"name": "node-login",
-	"version": "1.3.2",
-	"description": "A template for quickly building login systems on top of Node.js & MongoDb",
+	"name": "facilitator",
+	"version": "0.0.1",
+	"description": "facilitated online chat platform",
 	"author": {
-		"name": "Stephen Braitsch",
-		"email": "stephen@braitsch.io"
+		"name": "Sam Gaus",
+		"email": "facilitator@gaus.ie"
 	},
 	"website":{
-		"url": "node-login.braitsch.io"
+		"url": "gaus.ie"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/braitsch/node-login.git"
+		"url": "git://github.com/gausie/facilitator.git"
 	},
 	"private": true,
 	"dependencies": {

@@ -1,6 +1,8 @@
-#[Node-Login](http://node-login.braitsch.io)
+#[facilitator]
 
-####A basic login & account management system built in Node.js with the following features :
+This project is based on code from [node-login](http://node-login.braitsch.io) by [braitsch](http://braitsch.io).
+
+####A facilitated chat platform with the following features :
 
 * New User Account Creation
 * Secure Password Reset via Email
@@ -11,7 +13,7 @@
 
 ***
 
-####Node-Login is built on top of the following libraries :
+####facilitator is built on top of the following libraries :
 
 * [Node.js](http://nodejs.org/) - Application Server
 * [Express.js](http://expressjs.com/) - Node.js Web Framework
@@ -24,19 +26,11 @@
 
 ***
 
-A [Live Demo](http://node-login.braitsch.io) and [some thoughts about the app's architecture.](http://www.quietless.com/kitchen/building-a-login-system-in-node-js-and-mongodb/)
-
-***
-
 ####Installation & Setup
 This assumes you already have node.js & npm installed.
 ```
-git clone git://github.com/braitsch/node-login.git node-login
-cd node-login
+git clone git://github.com/gausie/facilitator.git facilitator
+cd facilitator
 npm install -d
 node app
 ```
-For testing purposes, I've provided a [database dump of all accounts here.](http://node-login.braitsch.io/print)  
-Please note this list and the entire database automatically resets every 24 hours.
-
-Questions and suggestions for improvement are welcome.
