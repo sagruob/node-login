@@ -1,5 +1,4 @@
 
-var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
 
@@ -47,45 +46,63 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    }   else{
 			res.render('home', {
-				title : 'Control Panel',
-				countries : CT,
+				title : 'Home',
 				udata : req.session.user
 			});
 	    }
 	});
 	
-	app.post('/home', function(req, res){
-		if (req.param('user') != undefined) {
-			AM.updateAccount({
-				user 		: req.param('user'),
-				name 		: req.param('name'),
-				email 		: req.param('email'),
-				country 	: req.param('country'),
-				pass		: req.param('pass')
-			}, function(e, o){
-				if (e){
-					res.send('error-updating-account', 400);
-				}	else{
-					req.session.user = o;
-			// update the user's login cookies if they exists //
-					if (req.cookies.user != undefined && req.cookies.pass != undefined){
-						res.cookie('user', o.user, { maxAge: 900000 });
-						res.cookie('pass', o.pass, { maxAge: 900000 });	
-					}
-					res.send('ok', 200);
-				}
-			});
-		}	else if (req.param('logout') == 'true'){
+    app.post('/home', function(req, res) {
+        if (req.param('logout') == 'true'){
 			res.clearCookie('user');
 			res.clearCookie('pass');
 			req.session.destroy(function(e){ res.send('ok', 200); });
 		}
+    });
+    
+// account settings //
+
+	app.get('/settings', function(req, res) {
+	    if (req.session.user == null){
+	// if user is not logged-in redirect back to login page //
+	        res.redirect('/');
+	    }   else{
+			res.render('settings', {
+				title : 'Settings',
+				udata : req.session.user
+			});
+	    }
 	});
-	
+    
+	app.post('/settings', function(req, res){
+        AM.updateAccount({
+            user 		: req.param('user'),
+            name 		: req.param('name'),
+            email 		: req.param('email'),
+            lgbt        : req.param('lgbt'),
+            black       : req.param('black'),
+            disabled    : req.param('disabled'),
+            woman       : req.param('woman'),
+            pass		: req.param('pass')
+        }, function(e, o){
+            if (e){
+                res.send('error-updating-account', 400);
+            }	else{
+                req.session.user = o;
+        // update the user's login cookies if they exists //
+                if (req.cookies.user != undefined && req.cookies.pass != undefined){
+                    res.cookie('user', o.user, { maxAge: 900000 });
+                    res.cookie('pass', o.pass, { maxAge: 900000 });	
+                }
+                res.send('ok', 200);
+            }
+        });
+	});
+    
 // creating new accounts //
 	
 	app.get('/signup', function(req, res) {
-		res.render('signup', {  title: 'Signup', countries : CT });
+		res.render('signup', {  title: 'Signup' });
 	});
 	
 	app.post('/signup', function(req, res){
@@ -94,7 +111,10 @@ module.exports = function(app) {
 			email 	: req.param('email'),
 			user 	: req.param('user'),
 			pass	: req.param('pass'),
-			country : req.param('country')
+			lgbt    : req.param('lgbt'),
+            black   : req.param('black'),
+            disabled: req.param('disabled'),
+            woman   : req.param('woman')
 		}, function(e){
 			if (e){
 				res.send(e, 400);

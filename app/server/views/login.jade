@@ -2,7 +2,7 @@
 extends layout
 
 block content
-	#login-container
+	#login-container.container
 		form( method="post")#login-form.well.span4
 			h1 Hello!
 			p.subheading Please Login To Your Account
@@ -24,11 +24,7 @@ block content
 	include modals/alert
 	include modals/lost-password
 
-block scripts
-	script(src='/vendor/jquery.min.js')
-	script(src='/vendor/jquery.form.js')
-	script(src='/vendor/bootstrap-modal.js')
-	script(src='/vendor/bootstrap-transition.js')
+block append scripts
 	script(src='/js/views/login.js')
 	script(src='/js/controllers/loginController.js')
 	script(src='/js/form-validators/loginValidator.js')

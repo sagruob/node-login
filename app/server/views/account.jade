@@ -4,7 +4,7 @@
 // store the userId on the client side in a hidden input field //
 input(type='hidden', value= user._id)#userId
 
-#account-form-container
+#account-form-container.container
 	form( method="post")#account-form.form-horizontal.well.span6
 		h1
 		p#sub1.subheading Please tell us a little about yourself.
@@ -18,14 +18,34 @@ input(type='hidden', value= user._id)#userId
 				label.control-label(for='email-tf') Email
 				.controls
 					input#email-tf.input-xlarge(type='text', name='email', value= user.email)
-			#clist-cg.control-group
-				label.control-label(for='country-list') Location
-				.controls
-					select#country-list(name='country')
-						each item in countries
-							option(selected=item.name == user.country)= item.name
 			hr
 			p#sub2.subheading
+			#lgbt-cg.control-group
+				label.control-label(for='lgbt-list') LGBT+
+				.controls
+					select#lgbt-list(name='lgbt')
+						option(selected=user.lgbt == "No") No
+						option(selected=user.lgbt == "Yes") Yes
+			#black-cg.control-group
+				label.control-label(for='black-list') Black
+				.controls
+					select#black-list(name='black')
+						option(selected=user.black == "No") No
+						option(selected=user.black == "Yes") Yes
+			#disabled-cg.control-group
+				label.control-label(for='disabled-list') Disabled
+				.controls
+					select#disabled-list(name='disabled')
+						option(selected=user.disabled == "No") No
+						option(selected=user.disabled == "Yes") Yes
+			#woman-cg.control-group
+				label.control-label(for='woman-list') Woman
+				.controls
+					select#woman-list(name='woman')
+						option(selected=user.woman == "No") No
+						option(selected=user.woman == "Yes") Yes
+			hr
+			p#sub3.subheading
 			#user-cg.control-group
 				label.control-label(for='user-tf') Username
 				.controls

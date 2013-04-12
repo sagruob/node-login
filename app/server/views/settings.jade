@@ -1,0 +1,13 @@
+
+extends header
+
+block append content
+
+	include account
+	include modals/alert
+	include modals/confirm
+
+block append scripts
+	script(src='/js/views/settings.js')
+	script(src='/js/controllers/settingsController.js')
+	script(src='/js/form-validators/accountValidator.js')
