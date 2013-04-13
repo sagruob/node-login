@@ -6,8 +6,10 @@ block append content
 		div.well
 			h1
 			p#sub1.subheading
+			ul#topics.unstyled
 
 block append scripts
 	script(src='/js/views/home.js')
+	script(src='/socket.io/socket.io.js')
 	script(src='/js/controllers/homeController.js')
 	script(src='/js/form-validators/accountValidator.js')

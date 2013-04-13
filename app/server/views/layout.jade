@@ -1,7 +1,7 @@
 !!! 5
 html
 	head
-		title #{title}
+		title #{locals.title}
 		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
 		link(rel='stylesheet', href='/css/style.css')
 		script(type='text/javascript')
@@ -15,9 +15,9 @@ html
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
 	body
-	block content
-	block scripts
-		script(src='/vendor/jquery.min.js')
-		script(src='/vendor/jquery.form.js')
-		script(src='/vendor/bootstrap-modal.js')
-		script(src='/vendor/bootstrap-transition.js')
+		block content
+		block scripts
+			script(src='/vendor/jquery.min.js')
+			script(src='/vendor/jquery.form.js')
+			script(src='/vendor/bootstrap-modal.js')
+			script(src='/vendor/bootstrap-transition.js')

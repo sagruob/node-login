@@ -17,7 +17,7 @@ body {
 /* W3C */
 }
 .container {
-  width: 460px;
+  width: 800px;
   margin: 100px auto;
 }
 #login-container label {
@@ -87,6 +87,27 @@ body {
 .modal-alert {
   width: 310px;
   margin: -200px 0 0 -150px;
+}
+#topics li {
+  display: block;
+  text-align: left;
+  line-height: 2em;
+  margin-bottom: 5px;
+}
+#topics li span {
+  float: right;
+}
+#chat,
+#info {
+  background: #fff;
+}
+#chat {
+  width: 500px;
+  float: left;
+}
+#info {
+  width: 150px;
+  margin-left: 550px;
 }
 #btn-logout {
   width: 100px;

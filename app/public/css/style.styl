@@ -19,7 +19,7 @@ body
 // containers //
 
 .container {
-	width 460px
+	width 800px
 	margin 100px auto
 }
 
@@ -94,7 +94,39 @@ body
 	width 310px
 	margin -200px 0 0 -150px
 }
-    
+
+// topics //
+
+#topics {
+  li {
+    display block
+    text-align left
+    line-height 2em
+    margin-bottom 5px
+    span {
+      float right
+    }
+  }
+}
+
+// chat //
+
+#chat, #info {
+  background white
+}
+
+chatwidth = 500px
+
+#chat {
+  width chatwidth
+  float left
+}
+
+#info {
+  width 150px
+  margin-left sum(chatwidth 50)
+}
+
 // logged-in page //    
     
 #btn-logout

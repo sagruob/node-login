@@ -1,4 +1,4 @@
-#[facilitator]
+#facilitator
 
 This project is based on code from [node-login](http://node-login.braitsch.io) by [braitsch](http://braitsch.io).
 

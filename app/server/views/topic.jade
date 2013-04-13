@@ -1,0 +1,22 @@
+
+extends header
+
+block append content
+
+	- user = typeof(locals.udata) != 'undefined' ? locals.udata : { }
+
+	input(type='hidden', value= user._id)#userId
+	input(type='hidden', value= locals.topic)#topic
+
+	#topic-container.container
+		div.well
+			h1 Topic: #{locals.topic}
+			p#sub1.subheading
+			div#chat.well
+			div#info.well
+			button#request
+
+block append scripts
+	script(src='/js/views/topic.js')
+	script(src='/socket.io/socket.io.js')
+	script(src='/js/controllers/topicController.js')
