@@ -23,6 +23,7 @@ This project is based on code from [node-login](http://node-login.braitsch.io) b
 * [EmailJS](http://github.com/eleith/emailjs) - Node.js > SMTP Server Middleware
 * [Moment.js](http://momentjs.com/) - Lightweight Date Library
 * [Twitter Bootstrap](http://twitter.github.com/bootstrap/) - UI Component & Layout Library
+* [socket.io](http://socket.io/) - JavaScript library for realtime web applications
 
 ***
 
