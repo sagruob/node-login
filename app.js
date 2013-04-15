@@ -2,7 +2,7 @@
 var express = require('express')
   , http = require('http')
   , app = express()
-  , io = require('socket.io')
+  , socket_io = require('socket.io')
   , cookie = require('cookie')
   , connect = require('express/node_modules/connect')
   , secret = 'suck-my-butt';
@@ -40,14 +40,66 @@ var express = require('express')
     
 // Socket.io stuff for chat
 
-    var online = {};
-    var topics = [
-      { name: 'Meeting', users: 34 },
-      { name: 'Something', users: 12 },
-      { name: 'Test', users: 4 }
-    ];
+    var Chat = function(socket){
+      
+      var that = this;
+      
+      this.socket = socket;
+      this.user = socket.handshake.user;
+      
+      this.online = {};
+      this.topics = [
+        { name: 'Meeting', users: -1, waiting: [] },
+        { name: 'Something', users: -1, waiting: [] },
+        { name: 'Test', users: -1, waiting: [] }
+      ];
+      
+      this.updateTopics = function(){
+        // update topics and emit
+        var topics = that.topics
+          , changed = false;
+        for(var key in topics){
+            var prev = topics[key]["users"];
+            topics[key]["users"] = io.sockets.clients(topics[key]["name"]).length;
+            if((prev != topics[key]["users"]) && !changed){
+              changed = true
+            }
+        }
+        if(changed){
+          io.sockets.emit('topics', topics);
+          that.topics = topics;
+        }
+        
+      }
+     
+      this.addUserToWaiting = function(room){
+        for(var key in topics){
+          if(topics[key]["name"] == room){
+            topics[key]["waiting"].push(user.user);
+            return true;
+          }
+        }
+        return false;
+      }
+      
+      this.joinTopic = function(room){
+          this.socket.join(room);
+          this.updateTopics();
+          //todo announce arrival to room
+      }
+      
+      this.leaveTopic = function(room){
+          this.socket.leave(room);
+          this.updateTopics();
+          //todo announce departure to room
+      }
+      
+    }
 
-    io.listen(server).set('authorization', function (handshakeData, callback) {
+    var io = socket_io.listen(server);
+    io.set('log level', 2);
+    
+    io.set('authorization', function (handshakeData, callback) {
 
       var cookies = cookie.parse(handshakeData.headers.cookie); 
       var sessionID = connect.utils.parseSignedCookie(cookies['connect.sid'], secret);
@@ -67,9 +119,26 @@ var express = require('express')
         
     }).on('connection', function (socket) {
       
+        var chat = new Chat(socket);
         var user = socket.handshake.user
         
-        socket.emit('topics', topics);
+        chat.updateTopics();
+        
+        socket.on('join', function (data) {
+           chat.joinTopic(data.topic);
+        });
+        
+        socket.on('leave', function (data) {
+          chat.leaveTopic(data.topic);
+        });
+        
+        socket.on('request', function(data){
+          chat.addUserToWaiting(data.room);
+        });
+        
+    }).on('disconnect', function (socket) {
+        
+        var chat = new Chat(socket);
+        chat.updateTopics();
         
     });
-

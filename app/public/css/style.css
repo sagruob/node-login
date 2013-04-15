@@ -94,7 +94,7 @@ body {
   line-height: 2em;
   margin-bottom: 5px;
 }
-#topics li span {
+#topics li div {
   float: right;
 }
 #chat,

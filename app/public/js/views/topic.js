@@ -1,8 +1,8 @@
 
 $(document).ready(function(){
 
-	var TC = new TopicController();
-    
-// customize the account settings form //
+  var TC = new TopicController();
+  
+  $('#request').text("Raise hand");
   
 })
