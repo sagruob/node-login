@@ -55,7 +55,7 @@ var express = require('express')
       
       this.online = {};
       this.topics = [
-        { name: 'Meeting', users: -1, waiting: [], voice: "" },
+        { name: 'Meeting', users: -1, waiting: ['reginald'], voice: "" },
         { name: 'Something', users: -1, waiting: [], voice: "" },
         { name: 'Test', users: -1, waiting: [], voice: "" }
       ];
@@ -81,14 +81,19 @@ var express = require('express')
       this.giveUserVoice = function(room){
         //update "currently speaking" variable on server side
         //emit an event to this user and get that event to provide a speaking box on client side
-      });
+      };
       
-      this.getWaiting = function(room){
+      this.getTopicData = function(room){
         for(var key in this.topics){
           if(this.topics[key]["name"] == room){
-            return this.topics[key]['waiting'];
+            return this.topics[key];
           }
         }
+        return false;
+      }
+      
+      this.getWaiting = function(room){
+        return this.getTopicData(room)['waiting'];
       }
      
       this.setWaiting = function(room, data){
@@ -112,6 +117,7 @@ var express = require('express')
       this.joinTopic = function(room){
           this.socket.join(room);
           this.updateTopics();
+          this.socket.emit("topicData", this.getTopicData())
           //todo send room info back to user
           //todo announce arrival to room
       }
