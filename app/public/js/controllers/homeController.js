@@ -19,16 +19,19 @@ function HomeController()
 
   var socket = io.connect('http://localhost:8080');
   socket.on('topics', function (data) {
-    console.log(data);
     var topics = [];
     $topics.find("li").each(function(){ topics.push(this.getAttribute('data-topic')); });
     $.each(data, function() {
       var name = this.name
         , exists = false;
-      // remove this one from our list
+      // remove from our list 
       topics = $.grep(topics, function(v) {
-        exists = true;
-        return v != name;
+        if(v == name){
+          exists = true;
+          return true;
+        }else{
+          return false;
+        }
       });
       // update or add
       if(exists){

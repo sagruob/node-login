@@ -40,6 +40,12 @@ var express = require('express')
     
 // Socket.io stuff for chat
 
+/*
+ * Don't knw how best to set this section up. It should clearly be separate from app.js but unsure as to exactly how 
+ * it should be divided. The ad-hoc divison I created doesn't really make much sense - it isn't clear what should be in the
+ * class and what shouldn't be. Thoughts appreciated - @gausie
+ */
+
     var Chat = function(socket){
       
       var that = this;
@@ -49,9 +55,9 @@ var express = require('express')
       
       this.online = {};
       this.topics = [
-        { name: 'Meeting', users: -1, waiting: [] },
-        { name: 'Something', users: -1, waiting: [] },
-        { name: 'Test', users: -1, waiting: [] }
+        { name: 'Meeting', users: -1, waiting: [], voice: "" },
+        { name: 'Something', users: -1, waiting: [], voice: "" },
+        { name: 'Test', users: -1, waiting: [], voice: "" }
       ];
       
       this.updateTopics = function(){
@@ -71,20 +77,42 @@ var express = require('express')
         }
         
       }
+      
+      this.giveUserVoice = function(room){
+        //update "currently speaking" variable on server side
+        //emit an event to this user and get that event to provide a speaking box on client side
+      });
+      
+      this.getWaiting = function(room){
+        for(var key in this.topics){
+          if(this.topics[key]["name"] == room){
+            return this.topics[key]['waiting'];
+          }
+        }
+      }
      
-      this.addUserToWaiting = function(room){
-        for(var key in topics){
-          if(topics[key]["name"] == room){
-            topics[key]["waiting"].push(user.user);
+      this.setWaiting = function(room, data){
+        for(var key in this.topics){
+          if(this.topics[key]["name"] == room){
+            this.topics[key]['waiting'] = data;
             return true;
           }
         }
         return false;
       }
+     
+      this.addUserToWaiting = function(room){
+        var waiting = this.getWaiting(room);
+        //todo only push if user isn't already in the list
+        waiting.push(this.user.user);
+        io.sockets.in(room).emit('waiting', waiting);
+        return this.setWaiting(room, waiting);
+      }
       
       this.joinTopic = function(room){
           this.socket.join(room);
           this.updateTopics();
+          //todo send room info back to user
           //todo announce arrival to room
       }
       
@@ -132,8 +160,12 @@ var express = require('express')
           chat.leaveTopic(data.topic);
         });
         
-        socket.on('request', function(data){
-          chat.addUserToWaiting(data.room);
+        socket.on('request', function(data) {
+          if(chat.getWaiting(data.topic).length==0){
+            //chat.giveUserVoice(data.topic);
+          } else {
+            chat.addUserToWaiting(data.topic);
+          }
         });
         
     }).on('disconnect', function (socket) {
